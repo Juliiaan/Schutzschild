@@ -1,0 +1,7 @@
+name: LevelSystem
+version: 1.0
+author: Juliiaan
+main: de.julian.levelsystem.LevelSystem
+commands:
+  level:
+    usage: /<command> <player>
