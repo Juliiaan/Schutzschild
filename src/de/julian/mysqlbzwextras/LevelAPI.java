@@ -11,7 +11,7 @@ public class LevelAPI {
         try {
             PreparedStatement ps = MySQL.getStatement("CREATE TABLE IF NOT EXISTS LevelSystem (UUID VARCHAR(100), level INT(16), xp INT(16)," +
                     " joinmetokens INT(16), nicktokens INT(16), god BOOL, 10heart BOOL, 12heart BOOL, fundf BOOL, spiderman BOOL, noob BOOL, tryhard BOOL," +
-                    " terminator BOOL, tank BOOL ");
+                    " terminator BOOL, tank BOOL) ");
             ps.executeUpdate();
         } catch (Exception ex) {
             ex.printStackTrace();
