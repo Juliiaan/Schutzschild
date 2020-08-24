@@ -10,8 +10,8 @@ public class LevelAPI {
     public static void createTable() {
         try {
             PreparedStatement ps = MySQL.getStatement("CREATE TABLE IF NOT EXISTS LevelSystem (UUID VARCHAR(100), level INT(16), xp INT(16)," +
-                    " joinmetokens INT(16), nicktokens INT(16), god BOOL, 10heart BOOL, 12heart BOOL, fundf BOOL, spiderman BOOL, noob BOOL, tryhard BOOL," +
-                    " terminator BOOL, tank BOOL) ");
+                    " joinmetokens INT(16), nicktokens INT(16), god INT(1), 10heart INT(1), 12heart INT(1), spiderman INT(1), fundf INT(1)," +
+                    " noob INT(1), tryhard INT(1), terminator INT(1), tank INT(1)) ");
             ps.executeUpdate();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -20,21 +20,23 @@ public class LevelAPI {
 
     public static void register(Player p) {
         try {
-            PreparedStatement ps = MySQL.getStatement("INSERT INTO LevelSystem (UUID, level, xp, joinmetokens, nicktokens, god) VALUES (?, ?, ?, ?, ?, ?,?,?,?,?,?,?,?,?)");
+            PreparedStatement ps = MySQL.getStatement("INSERT INTO LevelSystem (UUID, level, xp, joinmetokens, nicktokens, god, 10heart," +
+                    " 12heart, spiderman, fundf, noob, tryhard, terminator, tank) VALUES (?, ?, ?, ?, ?,?,?,?,?,?,?,?,?,?)");
             ps.setString(1, p.getUniqueId().toString());
             ps.setInt(2, 1);
             ps.setInt(3, 0);
             ps.setInt(4, 0);
             ps.setInt(5, 0);
-            ps.setBoolean(6, false);
-            ps.setBoolean(7, false);
-            ps.setBoolean(8, false);
-            ps.setBoolean(9, false);
-            ps.setBoolean(10, false);
-            ps.setBoolean(11, false);
-            ps.setBoolean(12, false);
-            ps.setBoolean(13, false);
-            ps.setBoolean(14, false);
+            ps.setInt(6, 1);
+            ps.setInt(7, 0);
+            ps.setInt(8, 0);
+            ps.setInt(9, 0);
+            ps.setInt(10, 0);
+            ps.setInt(11, 0);
+            ps.setInt(12, 0);
+            ps.setInt(13, 0);
+            ps.setInt(14, 0);
+
             ps.executeUpdate();
             ps.close();
         } catch (Exception ex) {
@@ -137,16 +139,17 @@ public class LevelAPI {
         }
     }
 
-    public static void setGod(Player p, boolean god) {
+    public static void setGod(Player p, int god) {
         try {
             PreparedStatement ps = MySQL.getStatement("UPDATE LevelSystem SET god= ? WHERE UUID= ?");
-            ps.setBoolean(1, god);
+            ps.setInt(1, god);
             ps.setString(2, p.getUniqueId().toString());
             ps.executeUpdate();
             ps.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
     }
 
     public static int getJoinME(Player p) {
@@ -208,74 +211,74 @@ public class LevelAPI {
 
     }
 
-    public static boolean getnoob(Player p) {
+    public static int getnoob(Player p) {
         try {
             PreparedStatement ps = MySQL.getStatement("SELECT * FROM LevelSystem WHERE UUID= ?");
             ps.setString(1, p.getUniqueId().toString());
             ResultSet rs = ps.executeQuery();
             rs.next();
-            boolean tokens = rs.getBoolean("noob");
+            int tokens = rs.getInt("noob");
             rs.close();
             ps.close();
             return tokens;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return false;
+          return -1;
     }
 
-    public static boolean gettryhard(Player p) {
+    public static int gettryhard(Player p) {
         try {
             PreparedStatement ps = MySQL.getStatement("SELECT * FROM LevelSystem WHERE UUID= ?");
             ps.setString(1, p.getUniqueId().toString());
             ResultSet rs = ps.executeQuery();
             rs.next();
-            boolean tokens = rs.getBoolean("tryhard");
+            int tokens = rs.getInt("noob");
             rs.close();
             ps.close();
             return tokens;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return false;
+        return -1;
     }
 
-    public static boolean getTerminator(Player p) {
+    public static int getTerminator(Player p) {
         try {
             PreparedStatement ps = MySQL.getStatement("SELECT * FROM LevelSystem WHERE UUID= ?");
             ps.setString(1, p.getUniqueId().toString());
             ResultSet rs = ps.executeQuery();
             rs.next();
-            boolean tokens = rs.getBoolean("terminator");
+            int tokens = rs.getInt("noob");
             rs.close();
             ps.close();
             return tokens;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return false;
+        return -1;
     }
 
-    public static boolean getTank(Player p) {
+    public static int getTank(Player p) {
         try {
             PreparedStatement ps = MySQL.getStatement("SELECT * FROM LevelSystem WHERE UUID= ?");
             ps.setString(1, p.getUniqueId().toString());
             ResultSet rs = ps.executeQuery();
             rs.next();
-            boolean tokens = rs.getBoolean("tank");
+            int tokens = rs.getInt("noob");
             rs.close();
             ps.close();
             return tokens;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return false;
+        return -1;
     }
 
-    public static void setnoob(Player p, boolean god) {
+    public static void setnoob(Player p, int god) {
         try {
             PreparedStatement ps = MySQL.getStatement("UPDATE LevelSystem SET noob= ? WHERE UUID= ?");
-            ps.setBoolean(1, god);
+            ps.setInt(1, god);
             ps.setString(2, p.getUniqueId().toString());
             ps.executeUpdate();
             ps.close();
@@ -284,10 +287,10 @@ public class LevelAPI {
         }
     }
 
-    public static void setTryhard(Player p, boolean god) {
+    public static void setTryhard(Player p, int god) {
         try {
             PreparedStatement ps = MySQL.getStatement("UPDATE LevelSystem SET tryhard= ? WHERE UUID= ?");
-            ps.setBoolean(1, god);
+            ps.setInt(1, god);
             ps.setString(2, p.getUniqueId().toString());
             ps.executeUpdate();
             ps.close();
@@ -296,10 +299,10 @@ public class LevelAPI {
         }
     }
 
-    public static void setTerminator(Player p, boolean god) {
+    public static void setTerminator(Player p, int god) {
         try {
             PreparedStatement ps = MySQL.getStatement("UPDATE LevelSystem SET terminator= ? WHERE UUID= ?");
-            ps.setBoolean(1, god);
+            ps.setInt(1, god);
             ps.setString(2, p.getUniqueId().toString());
             ps.executeUpdate();
             ps.close();
@@ -308,10 +311,10 @@ public class LevelAPI {
         }
     }
 
-    public static void setTank(Player p, boolean god) {
+    public static void setTank(Player p, int god) {
         try {
             PreparedStatement ps = MySQL.getStatement("UPDATE LevelSystem SET tank= ? WHERE UUID= ?");
-            ps.setBoolean(1, god);
+            ps.setInt(1, god);
             ps.setString(2, p.getUniqueId().toString());
             ps.executeUpdate();
             ps.close();
@@ -321,74 +324,74 @@ public class LevelAPI {
 
     }
 
-    public static boolean get10heart(Player p) {
+    public static int get10heart(Player p) {
         try {
             PreparedStatement ps = MySQL.getStatement("SELECT * FROM LevelSystem WHERE UUID= ?");
             ps.setString(1, p.getUniqueId().toString());
             ResultSet rs = ps.executeQuery();
             rs.next();
-            boolean tokens = rs.getBoolean("10heart");
+            int tokens = rs.getInt("noob");
             rs.close();
             ps.close();
             return tokens;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return false;
+        return -1;
     }
 
-    public static boolean get12heart(Player p) {
+    public static int get12heart(Player p) {
         try {
             PreparedStatement ps = MySQL.getStatement("SELECT * FROM LevelSystem WHERE UUID= ?");
             ps.setString(1, p.getUniqueId().toString());
             ResultSet rs = ps.executeQuery();
             rs.next();
-            boolean tokens = rs.getBoolean("12heart");
+            int tokens = rs.getInt("noob");
             rs.close();
             ps.close();
             return tokens;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return false;
+        return -1;
     }
 
-    public static boolean getfundf(Player p) {
+    public static int getfundf(Player p) {
         try {
             PreparedStatement ps = MySQL.getStatement("SELECT * FROM LevelSystem WHERE UUID= ?");
             ps.setString(1, p.getUniqueId().toString());
             ResultSet rs = ps.executeQuery();
             rs.next();
-            boolean tokens = rs.getBoolean("fundf");
+            int tokens = rs.getInt("noob");
             rs.close();
             ps.close();
             return tokens;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return false;
+        return -1;
     }
 
-    public static boolean getSpiderman(Player p) {
+    public static int getSpiderman(Player p) {
         try {
             PreparedStatement ps = MySQL.getStatement("SELECT * FROM LevelSystem WHERE UUID= ?");
             ps.setString(1, p.getUniqueId().toString());
             ResultSet rs = ps.executeQuery();
             rs.next();
-            boolean tokens = rs.getBoolean("spiderman");
+            int tokens = rs.getInt("noob");
             rs.close();
             ps.close();
             return tokens;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return false;
+        return -1;
     }
 
-    public static void set10heart(Player p, boolean god) {
+    public static void set10heart(Player p, int god) {
         try {
             PreparedStatement ps = MySQL.getStatement("UPDATE LevelSystem SET 10heart= ? WHERE UUID= ?");
-            ps.setBoolean(1, god);
+            ps.setInt(1, god);
             ps.setString(2, p.getUniqueId().toString());
             ps.executeUpdate();
             ps.close();
@@ -397,10 +400,10 @@ public class LevelAPI {
         }
     }
 
-    public static void set12heart(Player p, boolean god) {
+    public static void set12heart(Player p, int god) {
         try {
             PreparedStatement ps = MySQL.getStatement("UPDATE LevelSystem SET 12heart= ? WHERE UUID= ?");
-            ps.setBoolean(1, god);
+            ps.setInt(1, god);
             ps.setString(2, p.getUniqueId().toString());
             ps.executeUpdate();
             ps.close();
@@ -409,10 +412,10 @@ public class LevelAPI {
         }
     }
 
-    public static void setSpiderman(Player p, boolean god) {
+    public static void setSpiderman(Player p, int god) {
         try {
             PreparedStatement ps = MySQL.getStatement("UPDATE LevelSystem SET spiderman= ? WHERE UUID= ?");
-            ps.setBoolean(1, god);
+            ps.setInt(1, god);
             ps.setString(2, p.getUniqueId().toString());
             ps.executeUpdate();
             ps.close();
@@ -421,10 +424,10 @@ public class LevelAPI {
         }
     }
 
-    public static void setfundf(Player p, boolean god) {
+    public static void setfundf(Player p, int god) {
         try {
             PreparedStatement ps = MySQL.getStatement("UPDATE LevelSystem SET fundf= ? WHERE UUID= ?");
-            ps.setBoolean(1, god);
+            ps.setInt(1, god);
             ps.setString(2, p.getUniqueId().toString());
             ps.executeUpdate();
             ps.close();

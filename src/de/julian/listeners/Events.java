@@ -90,7 +90,7 @@ public class Events implements Listener {
 
                     }else if (currentlevel == 99 && currentxp == 100 ||currentxp >= 100){
                         LevelAPI.addLevel(e.getPlayer(), 1);
-                        LevelAPI.setGod(e.getPlayer(), true);
+                        LevelAPI.setGod(e.getPlayer(), 1);
                         LevelAPI.setXP(e.getPlayer(), 0);
                         for (Player all: Bukkit.getOnlinePlayers()) {
                             Bukkit.getWorld(e.getPlayer().getWorld().getName()).playSound(all.getLocation(), Sound.ENDERDRAGON_DEATH, 1, 1);
